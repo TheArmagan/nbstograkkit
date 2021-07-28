@@ -1,0 +1,3 @@
+# nbstograkkit
+
+node . > bruh.json

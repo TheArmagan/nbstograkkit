@@ -34,10 +34,24 @@ for (let i = 0; i < data.length; i++) {
 }
 if (count > 0) data2.push(count);
 
+let data3 = [];
+let arr = [];
+for (let i = 0; i < data.length; i++) {
+  const el = data2[i];
+  if (typeof el === "number") {
+    if (arr.length) data3.push(arr);
+    data3.push(el);
+    arr = [];
+  } else {
+    arr.push(el);
+  }
+}
+if (arr.length) data3.push(arr);
+
 
 let result = {
   tempo: song.tempo,
-  data: data2
+  data: data3
 };
 
 console.log(JSON.stringify(result));

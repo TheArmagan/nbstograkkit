@@ -6,7 +6,7 @@ let song = NBS.loadSong(path.resolve(__dirname, process.argv[2]));
 
 let layers = Object.values(song.layers);
 
-let result = [];
+let data = [];
 
 for (let noteIndex = 0; noteIndex < song.length + 1; noteIndex++) {
   let notePack = [];
@@ -22,9 +22,25 @@ for (let noteIndex = 0; noteIndex < song.length + 1; noteIndex++) {
       sleeps += 1;
     }
   }
-  if (notePack.length > 0) result.push(notePack);
-  if (sleeps > 0) result.push(Number(sleeps.toFixed(2)))
+  
+  if (notePack.length > 0) data.push(notePack);
+  if (sleeps > 0) data.push(Number(sleeps.toFixed(2)))
 
 }
-console.log(JSON.stringify(result))
+
+let data2 = [];
+let dur = 0;
+for (let i = 0; i < data.length; i++) {
+  const el = data[i];
+  if (typeof el === "object") {
+    if (dur > 0) data2.push(dur);
+    data2.push(el);
+    dur = 0;
+  } else {
+    dur += el;
+  }
+}
+if (dur > 0) data2.push(dur);
+
+console.log(JSON.stringify(data2))
 

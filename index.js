@@ -2,12 +2,12 @@ const { getClicks } = require("./getClicks");
 const NBS = require("./NBS")
 const path = require("path");
 
-let song = NBS.loadSong(path.resolve(__dirname, "input/gravityfalls.nbs"));
+let song = NBS.loadSong(path.resolve(__dirname, process.argv[2]));
 
 let layers = Object.values(song.layers);
 
 let result = [];
-let sleepDur = song.tempo;
+let sleepDur = song.tempo/1000;
 
 for (let noteIndex = 0; noteIndex < song.length + 1; noteIndex++) {
   let notePack = [];
@@ -24,7 +24,7 @@ for (let noteIndex = 0; noteIndex < song.length + 1; noteIndex++) {
     }
   }
   if (notePack.length > 0) result.push([1, notePack]);
-  if (sleeps > 0) result.push([0, sleeps])
+  if (sleeps > 0) result.push([0, Number(sleeps.toFixed(2))])
 
 }
 console.log(JSON.stringify(result))

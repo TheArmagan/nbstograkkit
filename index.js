@@ -28,19 +28,5 @@ for (let noteIndex = 0; noteIndex < song.length + 1; noteIndex++) {
 
 }
 
-let data2 = [];
-let dur = 0;
-for (let i = 0; i < data.length; i++) {
-  const el = data[i];
-  if (typeof el === "object") {
-    if (dur > 0) data2.push(dur);
-    data2.push(el);
-    dur = 0;
-  } else {
-    dur += el;
-  }
-}
-if (dur > 0) data2.push(dur);
-
-console.log(JSON.stringify(data2))
+console.log(JSON.stringify(data))
 

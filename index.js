@@ -19,28 +19,31 @@ for (let noteIndex = 0; noteIndex < song.length + 1; noteIndex++) {
     if (note) {
       notePack.push([note.instrument, Number(getClicks(note.pitch))])
     } else {
-      sleeps += 1;
+      data.push(0)
     }
   }
-  
-  if (notePack.length > 0) data.push(notePack);
-  if (sleeps > 0) data.push(Number(sleeps.toFixed(2)))
-
 }
 
-let data2 = [];
-let dur = 0;
+}
+if (count > 0) data2.push(count);
+
+let data3 = [];
+let arr = [];
 for (let i = 0; i < data.length; i++) {
-  const el = data[i];
-  if (typeof el === "object") {
-    if (dur > 0) data2.push(dur);
-    data2.push(el);
-    dur = 0;
+  const el = data2[i];
+  if (typeof el === "number") {
+    if (arr.length) data3.push(arr);
+    data3.push(el);
+    arr = [];
   } else {
-    dur += el;
+    arr.push(el);
   }
 }
-if (dur > 0) data2.push(dur);
+if (arr.length) data3.push(arr);
 
-console.log(JSON.stringify(data2))
+
+let result = {
+  tempo: song.tempo,
+  data: data3
+};
 

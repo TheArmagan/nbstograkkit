@@ -1,7 +1,18 @@
 const {command, type, server, file} = require("@grakkit/stdlib-paper");
 const Note = type("org.bukkit.Note");
 const Instrument = type("org.bukkit.Instrument");
-const sleep = require("stuffs/lib/sleep");
+
+function betterSleep(ms) {
+  return new Promise((resolve) => {
+    let endTime = Date.now() + ms;
+    let interval = setInterval(() => {
+      if (Date.now() > endTime) {
+        resolve();
+        clearInterval(interval);
+      }
+    }, 0);
+  });
+}
 
 const codeToInstrument = {
   "0": "PIANO",
@@ -30,7 +41,9 @@ for (let i = 0; i < 25; i++) {
 
 const songs = {
   hopesanddreams: require("../data/songs/hopesanddreams.music.json"),
-  cancan: require("../data/songs/cancan.music.json")
+  cancan: require("../data/songs/cancan.music.json"),
+  undertale: require("../data/songs/undertale.music.json"),
+  test: require("../data/songs/test.music.json")
 };
 
 const stopWanted = {};
@@ -65,7 +78,7 @@ command({
             })
           })
         } else {
-          await sleep(element)
+          if (element > 0) await betterSleep(element)
         }
       }
       player.sendMessage(`§7Song bitti. (${songCode})`)

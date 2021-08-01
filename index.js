@@ -23,10 +23,14 @@ for (let noteIndex = 0; noteIndex < song.length + 1; noteIndex++) {
     }
   }
 
-  if (notePack.length > 0) data.push(notePack);
+  if (notePack.length > 0) {
+    data.push(notePack);
+  }
   if (sleeps > 0) data.push(Number(sleeps.toFixed(2)))
 
 }
 
-console.log(JSON.stringify(data))
+console.log(JSON.stringify(data));
+
+
 

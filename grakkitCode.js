@@ -1,6 +1,7 @@
 const {command, type, server, file} = require("@grakkit/stdlib-paper");
 const Note = type("org.bukkit.Note");
 const Instrument = type("org.bukkit.Instrument");
+const Particle = type("org.bukkit.Particle");
 
 function betterSleep(ms) {
   return new Promise((resolve) => {
@@ -39,12 +40,13 @@ for (let i = 0; i < 25; i++) {
   notes[i] = new Note(i);
 }
 
-const songs = {
-  hopesanddreams: require("../data/songs/hopesanddreams.music.json"),
-  cancan: require("../data/songs/cancan.music.json"),
-  undertale: require("../data/songs/undertale.music.json"),
-  test: require("../data/songs/test.music.json")
-};
+const songs = {};
+
+[...file("plugins/grakkit/songs").io.listFiles() || []].forEach((file) => {
+  let fileName = file.getName()
+  if (!fileName.endsWith(".music.json")) return;
+  songs[fileName.split(".").shift()] = require("../songs/" + fileName);
+})
 
 const stopWanted = {};
 
@@ -72,9 +74,11 @@ command({
         }
         const element = song[i];
         if (Array.isArray(element)) {
+          let loc = player.getLocation();
+
           element.forEach((note) => {
             setImmediate(() => {
-              player.playNote(player.getLocation(), Instrument[codeToInstrument[note[0]]], notes[note[1]])
+              player.playNote(loc, Instrument[codeToInstrument[note[0]]], notes[note[1]]);
             })
           })
         } else {

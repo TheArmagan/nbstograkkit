@@ -26,11 +26,25 @@ for (let noteIndex = 0; noteIndex < song.length + 1; noteIndex++) {
   if (notePack.length > 0) {
     data.push(notePack);
   }
-  if (sleeps > 0) data.push(Number(sleeps.toFixed(2)))
+  if (sleeps > 0) data.push(Number((Number(sleeps.toFixed(2)) / layers.length).toFixed(2)) * 100);
 
 }
 
-console.log(JSON.stringify(data));
+let data2 = [];
+let count = 0;
+for (let i = 0; i < data.length; i++) {
+  const el = data[i];
+  if (typeof el === "object") {
+    if (count > 0) data2.push(count);
+    data2.push(el);
+    count = 0;
+  } else {
+    count += el;
+  }
+}
+if (count > 0) data2.push(count);
+
+console.log(JSON.stringify(data2));
 
 
 

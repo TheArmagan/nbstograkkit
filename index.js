@@ -26,8 +26,9 @@ for (let noteIndex = 0; noteIndex < song.length + 1; noteIndex++) {
   if (notePack.length > 0) {
     data.push(notePack);
   }
-  if (sleeps > 0) data.push(Number((Number(sleeps.toFixed(2)) / layers.length).toFixed(2)) * 100);
 
+  if (sleeps > 0) data.push(Number((Number(sleeps.toFixed(2)) / layers.length).toFixed(2)) * Number(process.argv[3] || 1));
+  
 }
 
 let data2 = [];
@@ -35,7 +36,7 @@ let count = 0;
 for (let i = 0; i < data.length; i++) {
   const el = data[i];
   if (typeof el === "object") {
-    if (count > 0) data2.push(count);
+    if (count > 0) data2.push(Number(count.toFixed(2)));
     data2.push(el);
     count = 0;
   } else {
